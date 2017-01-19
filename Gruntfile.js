@@ -102,21 +102,23 @@ module.exports = function(grunt) {
     'mochaTest'
   ]);
 
-  grunt.registerTask('push-to-live', ['shell:git-add', 'shell:git-commit', 'shell:git-push']);
-
   grunt.registerTask('build', [ 'concat', 'eslint', 'uglify', 'cssmin' ]);
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
-      // add your production server task here
+      grunt.task.run(['shell:git-add', 'shell:git-commit', 'shell:git-push']);
     } else {
       grunt.task.run([ 'server-dev' ]);
     }
   });
 
-  grunt.registerTask('deploy', [
-    // add your deploy tasks here
-  ]);
+  grunt.registerTask('deploy', function(n) {
+    if (grunt.option('prod')) {
+      grunt.task.run(['shell:git-add', 'shell:git-commit', 'shell:git-push']);
+    } else {
+      grunt.task.run(['mochaTest', 'build', 'nodemon']);
+    }
+  });
 
 
 };
