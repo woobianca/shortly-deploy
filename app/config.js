@@ -7,6 +7,23 @@ var knex = require('knex')({
   useNullAsDefault: true
 });
 var db = require('bookshelf')(knex);
+var MongoClient = require('mongodb').MongoClient;
+var assert = require('assert');
+var url = 'mongodb://localhost:27017/shortly-deploy';
+
+MongoClient.connect(url, function (err, db) {
+  if (err) {
+    console.log('Unable to connect to the mongoDB server. Error:', err);
+  } else {
+    //HURRAY!! We are connected. :)
+    console.log('Connection established to', url);
+
+    // do some work here with the database.
+
+    //Close connection
+    db.close();
+  }
+});
 
 db.knex.schema.hasTable('urls').then(function(exists) {
   if (!exists) {
