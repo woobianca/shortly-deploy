@@ -69,7 +69,14 @@ module.exports = function(grunt) {
     },
 
     shell: {
-      prodServer: {
+      'git-add': {
+        command: 'git add .'
+      },
+      'git-commit': {
+        command: 'git commit -m "build update" '
+      },
+      'git-push': {
+        command: 'git push live master'
       }
     }
   });
@@ -95,6 +102,8 @@ module.exports = function(grunt) {
   grunt.registerTask('test', [
     'mochaTest'
   ]);
+
+  grunt.registerTask('push-to-live', ['shell:git-add', 'shell:git-commit', 'shell:git-push']);
 
   grunt.registerTask('build', [ 'concat', 'eslint', 'uglify', 'cssmin' ]);
 
